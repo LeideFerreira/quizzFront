@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { Children } from 'react';
 import {Container} from './styles';
 import MainHeader from '../mainHeader';
 import Aside from '../aside';
 import Content from '../content';
 
-const Layout: React.FC = () =>{
+const Layout: React.FC = ({children}) =>{
     return (
-        <Container>
-           <MainHeader />
+       <Container>
+            <MainHeader />
            <Aside />
-           <Content />
-        </Container>
+           <Content>
+               {children}
+            </Content>
+       </Container>   
     );
 }
 
