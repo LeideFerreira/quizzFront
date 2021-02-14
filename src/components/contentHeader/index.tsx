@@ -1,11 +1,14 @@
 import React from 'react';
 import {Container,Title,Controllers} from './styles';
 
-const ContentHeader: React.FC = () =>{
+interface IContentHeaderProps {
+    title: string;
+}
+const ContentHeader: React.FC<IContentHeaderProps> = ({title}) =>{
     return (
         <Container>
             <Title>
-                <h1>Quizz</h1>
+                <h1>{title}</h1>
             </Title>
         </Container>
 

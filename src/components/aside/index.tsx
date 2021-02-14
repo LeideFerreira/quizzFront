@@ -3,25 +3,23 @@ import {Container,Header,LogImg,Menu,MenuItemlink,Title} from './styles';
 import logoImg from '../../assets/question.svg'
 import {MdExitToApp,MdDashboard} from 'react-icons/md'
 
-
-
 const Aside: React.FC = () =>{
     return (
         <Container>
             <Header>
                 <LogImg src={logoImg} alt= "Logo meu Quizz"/>
-                <Title>Quizz</Title>
+                <Title>Home</Title>
             </Header>
             <Menu>
-                <MenuItemlink href='#'>
+                <MenuItemlink href='/principal'>
                     <MdDashboard/>
                      Principal
                 </MenuItemlink>
-                <MenuItemlink href='#'>
+                <MenuItemlink href='/avaliacao'>
                     <MdDashboard/>
                     Avaliação User
                 </MenuItemlink>
-                <MenuItemlink href='#'>
+                <MenuItemlink href='/sair'>
                     <MdExitToApp/>
                     Sair
                 </MenuItemlink>

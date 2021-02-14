@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
-  margin-top: 50px;
-  justify-content: space-evenly;
-
+    display: flex;
+    margin-top: 50px;
+    justify-content: space-evenly;
 `;
 
 export const Answer = styled.div`   
@@ -27,7 +26,7 @@ export const Answer = styled.div`
 `;
 
 export const Question_Section = styled.div `
-    position: relative;
+
 `;
 
 

@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Container } from './styles';
+import React from 'react';
+import { Container, MenuItemlink } from './styles';
 import ContentHeader from '../../components/contentHeader';
-import ShowQuizz from '../Quizz/';
 
-const Principal: React.FC = () => {
+const Start: React.FC = () => {
     return (
         <Container>
-            <ContentHeader/>
-            <ShowQuizz/>
+            <ContentHeader title="Inicio"/>
+            <MenuItemlink href='/start'>
+                <h1>Link Start</h1>         
+            </MenuItemlink>
         </Container>
     );
 }
-export default Principal;
+export default Start;

@@ -1,10 +1,12 @@
 import React from 'react';
+import { Container } from './styles';
+import ContentHeader from '../../components/contentHeader';
 
-// Para mostrar a avaliacao do usuario de acordo com a area de dificuldade
 const Avaliacao: React.FC = () =>{
     return (
-        <h1>Avaliacao</h1>
+        <Container>
+        <ContentHeader title="Avaliação"/>    
+    </Container>
     );
 }
-
 export default Avaliacao;

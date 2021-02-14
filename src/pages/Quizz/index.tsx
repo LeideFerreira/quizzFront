@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useFetch } from "../../hooks/useFetch";
+import { useFetch } from "../../hooks/service";
 import {
     Answer, Container, Question_Count, Question_Section, Question_Text, Score_Section,
 } from './styles';
@@ -16,7 +16,7 @@ interface Quizz {
 }
 
 const ShowQuizz: React.FC = () => {
-    const { data } = useFetch<Quizz[]>('/api/question/'); //#pegar dados da api
+    const { data } = useFetch<Quizz[]>('/api/question/'); //#pegar dados da api 
     var qtd_questao = data?.length;
     const [atual, setQuestao_atual] = useState(0); //para atualizar a questao
     const [mostra_pontuacao, setMostra_pontuacao] = useState(false); //Quando terminar eu atualizo para true
