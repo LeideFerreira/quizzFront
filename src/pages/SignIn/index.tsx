@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState} from 'react';
 import { Container, Form, FormTitle } from './styles';
 import Input from '../../components/input';
 import Button from '../../components/button';
@@ -14,20 +14,14 @@ const SignIn: React.FC = () => {
         email: email,
         password: password,
     }
-
-    // useEffect(() => { //Estudar
-    //     handleSign();
-    //  }, []);
-     
-    console.log("logged: ", logged);
     
-    async function handleSign() {
-        await signIn(data);
+    function handleSign() {
+        signIn(data);
     }
 
-    const handleSubmit = async (e:any) => {
-        e.preventDefault();
+    const handleSubmit = (e:any) => { //Quando rolar o Submit chamo a funcao
         handleSign()
+        e.preventDefault();
     }
     return (
         <Container>
@@ -46,7 +40,6 @@ const SignIn: React.FC = () => {
                     placeholder="senha"
                     required
                     onChange={(e) => setPassword(e.target.value)}
-
                 />
 
                 <Button type="submit">Acessar</Button>

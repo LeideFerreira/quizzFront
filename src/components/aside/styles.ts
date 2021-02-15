@@ -37,3 +37,16 @@ export const Title = styled.h3`
     color: ${props => props.theme.color.white};
     margin-left: 10px;
 `;
+
+export const MenuItemlButton = styled.button`
+display:flex;
+color: ${props => props.theme.color.info};
+font-size:16px;
+background: none;
+border:none;
+margin: 7px 0;
+    &:hover{
+        opacity: .7;
+    }
+    align-items: center;
+`;

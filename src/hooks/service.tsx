@@ -1,4 +1,3 @@
-
 import useSWR from "swr";
 import api from "../api";
 
@@ -12,15 +11,13 @@ interface Response {
 
 const fetcher = (url:string) => api.get(url).then(resp => resp.data);
 
-
 function signInService(url:string, user:object): Promise<Response>{//Conversa com api
   return new Promise((resolve, reject) => {
-    api.post(url,user)
-    .then((resp)=>{
-      console.log(resp.data);
+    api.post(url,user).then((resp)=>{
       resolve(resp.data);
     }).catch((error)=>{
-      reject(error);
+      //reject(error);
+      alert('Senha ou usuário inválidos!!');
     })
   });
 }

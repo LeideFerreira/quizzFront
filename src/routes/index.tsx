@@ -1,16 +1,15 @@
-import React,{useContext} from 'react';
+import React from 'react';
 import AppRouter from './approuter';
 import AuthRoutes from './authroutes';
 import {useAuth} from '../hooks/auth';
 import {BrowserRouter} from 'react-router-dom';
 
 const Routes: React.FC = () =>{
-    const { logged } = useAuth();
+    const { logged,user } = useAuth();
+    console.log("Logado: ",logged,user);
     return (
         <BrowserRouter>
-            {/* {logged? <AppRouter/> : <AuthRoutes/>} */}
-            {/* <AppRouter/> */}
-            <AuthRoutes/>
+            {logged ? <AppRouter/> : <AuthRoutes/>}
         </BrowserRouter>
     ) 
 

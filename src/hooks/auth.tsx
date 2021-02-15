@@ -8,31 +8,46 @@ interface AuthContextData {
   signOut(): void;
 }
 
-
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<object | null>(null);
-  const [logged, setLogged] = useState<boolean>(() => {
-    const isLogged = localStorage.getItem('@sistema:logged');
-    return !!isLogged;
-  });
+  const [loading,setLoading] = useState(true);
 
-  async function signIn(user:object){
-     const response =  await signInService('/api/auth/login',user);
-      if(response){
-        localStorage.setItem('@sistema:logged', 'true');
-        setLogged(true);
-        setUser(response.user);
-     };
+
+  useEffect(() => {
+    async function loadStoragedData() {
+      const storagedUser = await localStorage.getItem('@QuizzAuth:user');
+      const storagedToken = await localStorage.getItem('@QuizzAuth:token');
+
+      if (storagedUser && storagedToken) {
+        setUser(JSON.parse(storagedUser));
+        setLoading(false);
+      }
+  
+    }
+    loadStoragedData();
+
+  }, []);
+
+  async function signIn(user: object) { //requisicao post
+    const resp = await signInService('/api/auth/login', user);
+    setUser(resp.user);
+    await localStorage.setItem('@QuizzAuth:user', JSON.stringify(resp.user));//Guardar o user no LocalStorage
+    await localStorage.setItem('@QuizzAuth:token', resp.token);//Guardar o user no LocalStorage
+  
   }
 
-  function signOut() {
+  async function signOut() {
+    await localStorage.clear();
     setUser(null);
   }
 
+  if(loading){
+
+  }
   return (
-    <AuthContext.Provider value={{logged,user, signIn, signOut }}>
+    <AuthContext.Provider value={{logged: Boolean(user), user, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
