@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container,Title,Controllers} from './styles';
+import {Container,Title} from './styles';
 
 interface IContentHeaderProps {
     title: string;

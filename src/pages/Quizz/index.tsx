@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
-import { useFetch } from "../../hooks/service";
+import React, {useState} from 'react';
+import { useFetch} from "../../hooks/service";
 import {
-    Answer, Container, Question_Count, Question_Section, Question_Text, Score_Section,
+    Answer, 
+    Container, 
+    Question_Count, 
+    Question_Section, 
+    Question_Text, 
+    Score_Section,
 } from './styles';
+
+import {useQuizz} from '../../hooks/quizzContext';
 
 interface Quizz {
     id: number;
@@ -15,13 +22,15 @@ interface Quizz {
     resolucao: string;
 }
 
+
 const ShowQuizz: React.FC = () => {
     const { data } = useFetch<Quizz[]>('/api/question/'); //#pegar dados da api 
     var qtd_questao = data?.length;
     const [atual, setQuestao_atual] = useState(0); //para atualizar a questao
     const [mostra_pontuacao, setMostra_pontuacao] = useState(false); //Quando terminar eu atualizo para true
-    const [score, setScore] = useState(0);
-
+    const [score,setScore] = useState(0);
+    const {situacao, Situacao} = useQuizz();
+   
     if (!data) {
         return (
             <p>Carregando...</p>
@@ -29,18 +38,24 @@ const ShowQuizz: React.FC = () => {
     }
 
     const questaoCorretaClick = (escolha: string) => {
-        if (escolha === data[atual].correta) { setScore(score + 1);
-        }
-        
+        if (escolha === data[atual].correta)setScore(score + 1);
         const proxima = atual + 1;
-        if (proxima < data.length) { setQuestao_atual(proxima);
-        } else { setMostra_pontuacao(true);
+        
+        if (proxima < data.length) {
+            setQuestao_atual(proxima);
+        } else {
+            Situacao(score);
+            setMostra_pontuacao(true);
         }
     }
+    
     return (
         <Container>
             {mostra_pontuacao ? (//Caso true
-                <Score_Section>You scored {score} out of {qtd_questao}
+                <Score_Section>
+                    <span>  Sua pontuacao foi  </span> {score} de {qtd_questao}
+                    <br />
+                    <span> Nível do aluno:</span> {situacao}
                 </Score_Section>
             ) : ( //senao
                     <Question_Section>

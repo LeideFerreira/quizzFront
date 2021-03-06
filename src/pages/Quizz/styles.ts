@@ -25,18 +25,22 @@ export const Answer = styled.div`
     }
 `;
 
-export const Question_Section = styled.div `
+export const Question_Section = styled.div`
 
 `;
 
 
-export const Question_Count = styled.div `
+export const Question_Count = styled.div`
     margin-bottom: 20px;
     >span{
         font-size: 28px;
     }
 `;
-export const Question_Text = styled.div `
+export const Question_Text = styled.div`
   margin-bottom: 12px;
 `;
-export const Score_Section = styled.div ``;
+export const Score_Section = styled.div`
+    >span{
+        font-size: 20px;
+    }
+`;

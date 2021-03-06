@@ -10,7 +10,7 @@ const Aside: React.FC = () =>{
         <Container>
             <Header>
                 <LogImg src={logoImg} alt= "Logo meu Quizz"/>
-                <Title>Home</Title>
+                <Title>Quizz project</Title>
             </Header>
             <Menu>
                 <MenuItemlink href='/principal'>
