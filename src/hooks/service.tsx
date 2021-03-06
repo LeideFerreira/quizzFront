@@ -8,12 +8,11 @@ interface Response {
     id: number,
     username: string,
     email: string,
+    avaliacao: {
+      area: string,
+      pontuacao:number,
+    }
   };
-}
-
-interface InTAvaliacao {
-  area: string;
-  pontuacao: number;
 }
 
 
@@ -30,16 +29,16 @@ function signInService(url: string, user: object): Promise<Response> {//Conversa
 }
 
 
-function avaliacaoGET(url: string, id: number): Promise<InTAvaliacao> {
-  return new Promise((resolve,reject)=>{
-    api.get(url+id).then((resp) =>{
-      console.log(resp.data);
-      resolve(resp.data);
-    }).catch((error) => {
-      alert('Deu ruim!!');
-    })
-  });
-}
+// function avaliacaoGET(url: string, id: number): Promise<InTAvaliacao> {
+//   return new Promise((resolve,reject)=>{
+//     api.get(url+id).then((resp) =>{
+//       console.log(resp.data);
+//       resolve(resp.data);
+//     }).catch((error) => {
+//       alert('Deu ruim!!');
+//     })
+//   });
+// }
 
 function avaliacaoPOST(url: string, avaliacao: object) {//Salvar dados na avaliacao
   api.post(url, avaliacao)
@@ -68,4 +67,4 @@ function useFetch<Data = any>(url: string) {
   return { data, error };
 }
 
-export { useFetch, signInService, avaliacaoPOST, avaliacaoPUT, avaliacaoGET }
+export { useFetch, signInService, avaliacaoPOST, avaliacaoPUT }

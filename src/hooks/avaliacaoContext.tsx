@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { avaliacaoGET } from "./service";
 import { useAuth } from '../hooks/auth';
 
 
@@ -7,7 +6,6 @@ interface Avaliacao{
     pontuacao: number;
     area: string;
 }
-
 
 interface AvaliacaoContextData{
     avaliacao: Avaliacao | null;
@@ -26,7 +24,7 @@ const AvaliacaoProvider: React.FC = ({ children }) => {
             return <p>Wait User</p>
         }
 
-        const ava = await avaliacaoGET('/api/avaliacao/?id=',user.id); //pegar avaliacao de acordo com user atu     
+        const ava = user.avaliacao; //pegar avaliacao de acordo com user atu     
         setAvaliacao(ava);
     }
 

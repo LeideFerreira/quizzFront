@@ -16,8 +16,7 @@ const Avaliacao: React.FC = () => {
             <ContentHeader title="Avaliação" />
             <Score_Section>
                 <span>Sua Avaliacao {user.username}</span>
-                
-                <p></p>
+                <p>Seu nível de 1 a 10 a área de {user.avaliacao.area} é: {user.avaliacao.pontuacao}</p>
             </Score_Section>
         </Container>
     );
