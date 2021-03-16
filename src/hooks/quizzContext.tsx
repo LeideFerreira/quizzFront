@@ -1,17 +1,17 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect} from "react";
 
 interface QuizzContextData {
-    Situacao(score:number):void;
+    Situacao(score: number): void;
     situacao: string;
-  }
-  
+}
+
 
 const QuizzContext = createContext<QuizzContextData>({} as QuizzContextData);
 
 const QuizzProvider: React.FC = ({ children }) => {
     const [situacao, setSituacao] = useState("Bom");
-   
-   function Situacao(score: number) {
+
+    function Situacao(score: number) {
         if (score > 5) {
             setSituacao('Excelente');
         } else {
@@ -19,11 +19,15 @@ const QuizzProvider: React.FC = ({ children }) => {
         }
     }
 
+
+
+  
+    
     const state = {
         situacao,
         Situacao,
     }
-    
+
     return (
         <QuizzContext.Provider value={state}>
             {children}
@@ -33,7 +37,7 @@ const QuizzProvider: React.FC = ({ children }) => {
 
 function useQuizz() {
     const context = useContext(QuizzContext);
-    
+
     return context;
 }
 

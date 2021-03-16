@@ -12,7 +12,7 @@ interface IntAvaliacao {
     area: {
         nome: string,
     }
-    pontuacao: number,
+    nivel: number,
 }
 
 const Avaliacao: React.FC = () => {
@@ -37,7 +37,7 @@ const Avaliacao: React.FC = () => {
             {avaliacao ? (
                 <Score_Section>
                     {/* <span>Sua Avaliacao {avaliacao.user}</span> */}
-                    <p>Seu nível de 1 a 10 em   {avaliacao[0].area.nome} algébricas é: {avaliacao[0].pontuacao}</p>
+                    <p>Seu nível de 1 a 10 em   {avaliacao[0].area.nome} algébricas é: {avaliacao[0].nivel}</p>
                 </Score_Section>
             ) : (
                     <p>Wait...</p>
