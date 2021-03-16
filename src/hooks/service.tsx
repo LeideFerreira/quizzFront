@@ -1,4 +1,3 @@
-import { func } from "prop-types";
 import useSWR from "swr";
 import api from "../api";
 
@@ -8,13 +7,8 @@ interface Response {
     id: number,
     username: string,
     email: string,
-    avaliacao: {
-      area: string,
-      pontuacao:number,
-    }
   };
 }
-
 
 const fetcher = (url: string) => api.get(url).then(resp => resp.data);
 
@@ -29,16 +23,16 @@ function signInService(url: string, user: object): Promise<Response> {//Conversa
 }
 
 
-// function avaliacaoGET(url: string, id: number): Promise<InTAvaliacao> {
-//   return new Promise((resolve,reject)=>{
-//     api.get(url+id).then((resp) =>{
-//       console.log(resp.data);
-//       resolve(resp.data);
-//     }).catch((error) => {
-//       alert('Deu ruim!!');
-//     })
-//   });
-// }
+function avaliacaoGET<Data=any>(url: string, user_id: number){
+  return new Promise<Data>((resolve,reject)=>{
+    api.get(url+user_id).then((resp) =>{
+      console.log(resp.data)
+      resolve(resp.data);
+    }).catch((error) => {
+      alert('Deu ruim!!');
+    })
+  });
+}
 
 function avaliacaoPOST(url: string, avaliacao: object) {//Salvar dados na avaliacao
   api.post(url, avaliacao)
@@ -67,4 +61,4 @@ function useFetch<Data = any>(url: string) {
   return { data, error };
 }
 
-export { useFetch, signInService, avaliacaoPOST, avaliacaoPUT }
+export { useFetch, signInService, avaliacaoPOST, avaliacaoPUT,avaliacaoGET }

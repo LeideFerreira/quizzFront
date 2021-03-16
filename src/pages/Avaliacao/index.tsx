@@ -1,23 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Score_Section } from './styles';
 import ContentHeader from '../../components/contentHeader';
 import { useAuth } from '../../hooks/auth';
-import { useAvaliacao } from '../../hooks/avaliacaoContext';
+import { avaliacaoGET } from "../../hooks/service";
+
+interface IntAvaliacao {
+    user: {
+        id: number,
+        username: string,
+    }
+    area: {
+        nome: string,
+    }
+    pontuacao: number,
+}
 
 const Avaliacao: React.FC = () => {
     const { user } = useAuth();
+    const [avaliacao, setAvaliacao] = useState<IntAvaliacao[] | null>(null);
 
-    if (!user) {
-        return (<p>Wait user</p>);
-    }
+    useEffect(() => {
+        async function fetchData() { //Tentar executar
+            if (!user) {
+                return <p>Cadê mo?</p>
+            }
+            const ava = await avaliacaoGET('/api/avaliacao/?id=', user.id);//pegar avaliacao de acordo com user atu     
+            setAvaliacao(ava);
+
+        }
+        fetchData()
+    }, [])
 
     return (
         <Container>
             <ContentHeader title="Avaliação" />
-            <Score_Section>
-                <span>Sua Avaliacao {user.username}</span>
-                <p>Seu nível de 1 a 10 a área de {user.avaliacao.area} é: {user.avaliacao.pontuacao}</p>
-            </Score_Section>
+            {avaliacao ? (
+                <Score_Section>
+                    {/* <span>Sua Avaliacao {avaliacao.user}</span> */}
+                    <p>Seu nível de 1 a 10 em   {avaliacao[0].area.nome} algébricas é: {avaliacao[0].pontuacao}</p>
+                </Score_Section>
+            ) : (
+                    <p>Wait...</p>
+                )
+            }
         </Container>
     );
 }

@@ -5,10 +5,10 @@ interface User {
   id: number;
   username: string;
   email: string;
-  avaliacao: {
-    area: string,
-    pontuacao:number,
-  }
+  // avaliacao: {
+  //   area: string,
+  //   pontuacao:number,
+  // }
 }
 
 interface AuthContextData {
