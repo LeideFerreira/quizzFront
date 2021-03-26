@@ -1,17 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useFetch } from "../../hooks/service";
-import {
-    Answer,
-    Container,
-    Question_Count,
-    Question_Section,
-    Question_Text,
-    Score_Section,
-} from './styles';
+import { useAvaliacao } from '../../hooks/avaliacaoContext';
+import {Answer,Container,Question_Count,Question_Section,Question_Text,Score_Section,} from './styles';
 
-import { useQuizz } from '../../hooks/quizzContext';
-
-interface Quizz {
+interface Quiz {
     id: number;
     pergunta: string;
     a: string;
@@ -23,46 +15,62 @@ interface Quizz {
     resolucao: string;
 }
 
-const ShowQuizz: React.FC = () => {
-    /*
-        Essa useFetch pega todas as perguntas que estao no banco
-        Passos para selecionar as questões do usuário
-        1 - Preciso inserir num dicionario somente as questões com nivel escolhido
-        2 - Ao inserir no dicionario preciso selecionar aleatoriamente as questoes desse dicionario, so consulto o banco uma vez
-    */
-    const { situacao, Situacao } = useQuizz();
-    const { data } = useFetch<Quizz[]>('/api/question/'); //#pegar dados da api 
-    var qtd_questao = data?.length;
+const ShowQuizz: React.FC = () =>{
     const [atual, setQuestao_atual] = useState(0); //para atualizar a questao
     const [mostra_pontuacao, setMostra_pontuacao] = useState(false); //Quando terminar eu atualizo para true
     const [score, setScore] = useState(0);
+    //const [situacao, setSituacao] = useState("bom");
+    const {avaliacao,getAvaliacao} = useAvaliacao();
 
-    if (!data) {
-        return (
-            <p>Carregando...</p>
-        )
+    useEffect(()=>{ //Pego a avaliacao
+        getAvaliacao()
+    },[])
+ 
+   const { data } = useFetch<Quiz[]>('/api/question/'); // Essa useFetch pega todas as perguntas que estao no banco
+
+    if (!data || !avaliacao) { //verificar se existe data e avaliacao
+        return (<p>Carregando...</p>)
     }
-    var MeuData = data;
-    let randomNumber;
-    let tmp;
-    let index
 
+    //Variaveis para utilizar nas selecoes de questoes
+    var data_aux = []
+    var randomNumber,tmp,index,cont_aux = 0, ava = avaliacao[0].nivel;
 
-    for (index = MeuData.length; index;) { //Ordenar a lista aleatoriamente
+    //Buscar somente questaos do nivel atual do usuario
+    for (index = 0; index < data.length; index++){
+        if(data[index].nivel == ava){// se o nivel da questao for igual ao nivel do usuario
+            data_aux[cont_aux] = data[index];
+            cont_aux++; //Se for igual acrescento o  contador dele
+        }
+    }
+
+    var MeuData = data_aux;
+    var qtd_questao = MeuData?.length;
+
+    //Ordenar as questoes aleatoriamente
+    for (index = MeuData.length; index;) { 
         randomNumber = Math.random() * index-- | 0;
         tmp = MeuData[randomNumber];
         MeuData[randomNumber] = MeuData[index];
         MeuData[index] = tmp;
     }
 
+    //  function Situacao(score: number) {
+    //     if (score > 5) {
+    //         setSituacao('Otimo');
+    //     } else {
+    //         setSituacao('Ruim');
+    //     }
+    // }
+
     const questaoCorretaClick = (escolha: string) => {
         if (escolha === MeuData[atual].correta) setScore(score + 1);
         const proxima = atual + 1;
 
-        if (proxima < MeuData.length) {
+        if (proxima < MeuData.length) { 
             setQuestao_atual(proxima);
         } else {
-            Situacao(score);
+           // Situacao(score);
             setMostra_pontuacao(true);
         }
     }
@@ -73,7 +81,7 @@ const ShowQuizz: React.FC = () => {
                 <Score_Section>
                     <span>  Sua pontuacao foi  </span> {score} de {qtd_questao}
                     <br />
-                    <span> Nível do aluno:</span> {situacao}
+                    <span> Nível do aluno:</span> {avaliacao[0].nivel}
                 </Score_Section>
             ) : ( //senao
                     <Question_Section>

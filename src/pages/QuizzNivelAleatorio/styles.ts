@@ -15,7 +15,7 @@ export const Answer = styled.div`
         border-radius: 15px;
         padding: 5px;
         align-items: center;
-        border: 5px solid #234668;
+        border: 2px solid ${props => props.theme.color.warning};
         cursor: pointer;
         
         &:hover{

@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+    
+`;
+export const Div_Section = styled.div`
+    display: inline-flex;
+    width: 100%;
+    align-items: baseline;
+    margin-top: 50px;
+    justify-content: space-evenly;
 `;
 
 export const MenuItemlink = styled.a`
-    display: flex;
-    margin-top: 100px;
-    justify-content: space-evenly;
-    border-radius:25px;
-    border: 5px solid;   
     color: ${props => props.theme.color.warning};
     text-decoration: none;
     &:hover{

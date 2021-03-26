@@ -1,15 +1,26 @@
 import React from 'react';
-import { Container, MenuItemlink } from './styles';
+import { Container, MenuItemlink,Div_Section } from './styles';
 import ContentHeader from '../../components/contentHeader';
 
-const Start: React.FC = () => {
+/*
+clico em aleatorio ---> segue pro quiz/nivel_aleatorio
+clico em nivel atual ----> segue pro quiz/nivel_atual
+*/
+
+const Principal: React.FC = () => {
     return (
         <Container>
-            <ContentHeader title="Inicio"/>
-            <MenuItemlink href='/start'>
-                <h1>Link Start</h1>         
-            </MenuItemlink>
+              <ContentHeader title="Nivel"/>
+              <Div_Section>
+                <MenuItemlink href='/start/nivelaleatorio'>
+                    <h1>Nivel aleatorio</h1>     
+                </MenuItemlink>
+                <MenuItemlink href='/start/nivelatual'>
+                    <h1>Nivel Atual</h1>         
+                </MenuItemlink>
+            </Div_Section>
+          
         </Container>
     );
 }
-export default Start;
+export default Principal;
