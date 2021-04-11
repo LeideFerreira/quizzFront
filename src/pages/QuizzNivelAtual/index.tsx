@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFetch } from "../../hooks/service";
-import { useAvaliacao } from '../../hooks/avaliacaoContext';
+import {useAuth} from '../../hooks/auth';
 import {Answer,Container,Question_Count,Question_Section,Question_Text,Score_Section,} from './styles';
 
 interface Quiz {
@@ -19,22 +19,17 @@ const ShowQuizz: React.FC = () =>{
     const [atual, setQuestao_atual] = useState(0); //para atualizar a questao
     const [mostra_pontuacao, setMostra_pontuacao] = useState(false); //Quando terminar eu atualizo para true
     const [score, setScore] = useState(0);
-    //const [situacao, setSituacao] = useState("bom");
-    const {avaliacao,getAvaliacao} = useAvaliacao();
-
-    useEffect(()=>{ //Pego a avaliacao
-        getAvaliacao()
-    },[])
- 
+    const {user} = useAuth();
+   
    const { data } = useFetch<Quiz[]>('/api/question/'); // Essa useFetch pega todas as perguntas que estao no banco
 
-    if (!data || !avaliacao) { //verificar se existe data e avaliacao
+    if (!data) { //verificar se existe data e avaliacao
         return (<p>Carregando...</p>)
     }
 
     //Variaveis para utilizar nas selecoes de questoes
     var data_aux = []
-    var randomNumber,tmp,index,cont_aux = 0, ava = avaliacao[0].nivel;
+    var randomNumber,tmp,index,cont_aux = 0, ava = user?.nivel;
 
     //Buscar somente questaos do nivel atual do usuario
     for (index = 0; index < data.length; index++){
@@ -43,7 +38,6 @@ const ShowQuizz: React.FC = () =>{
             cont_aux++; //Se for igual acrescento o  contador dele
         }
     }
-
     var MeuData = data_aux;
     var qtd_questao = MeuData?.length;
 
@@ -54,14 +48,6 @@ const ShowQuizz: React.FC = () =>{
         MeuData[randomNumber] = MeuData[index];
         MeuData[index] = tmp;
     }
-
-    //  function Situacao(score: number) {
-    //     if (score > 5) {
-    //         setSituacao('Otimo');
-    //     } else {
-    //         setSituacao('Ruim');
-    //     }
-    // }
 
     const questaoCorretaClick = (escolha: string) => {
         if (escolha === MeuData[atual].correta) setScore(score + 1);
@@ -75,13 +61,14 @@ const ShowQuizz: React.FC = () =>{
         }
     }
 
+
     return (
         <Container>
             {mostra_pontuacao ? (//Caso true
                 <Score_Section>
                     <span>  Sua pontuacao foi  </span> {score} de {qtd_questao}
                     <br />
-                    <span> Nível do aluno:</span> {avaliacao[0].nivel}
+                    <span> Nível do aluno:</span> {user?.nivel} {user?.nivel}
                 </Score_Section>
             ) : ( //senao
                     <Question_Section>

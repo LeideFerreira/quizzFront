@@ -1,23 +1,22 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Container, Score_Section } from './styles';
 import ContentHeader from '../../components/contentHeader';
 import { useAuth } from '../../hooks/auth';
-import { useAvaliacao } from '../../hooks/avaliacaoContext';
 
 const Avaliacao: React.FC = () => {
-    const {avaliacao,getAvaliacao} = useAvaliacao();
+    const {user,atualizaAvaliacao} = useAuth();
+
 
     useEffect(()=>{
-        getAvaliacao()
+        atualizaAvaliacao(2,"D");
     },[])
-
     return (
         <Container>
             <ContentHeader title="Avaliação" />
-            {avaliacao ? (
+            {user ? (
                 <Score_Section>
                     {/* <span>Sua Avaliacao {avaliacao.user}</span> */}
-                    <p>Seu nível de 1 a 10 em   {avaliacao[0].area.nome} algébricas é: {avaliacao[0].nivel}</p>
+                    <p> Olá, {user.username} seu nível em Expressões Algebricas é {user.nivel}</p>
                 </Score_Section>
             ) : (
                     <p>Wait...tá sem</p>

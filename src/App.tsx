@@ -4,7 +4,6 @@ import {ThemeProvider} from 'styled-components';
 import dark from './styles/themes/dark';
 import Routes from './routes';
 import {AuthProvider} from './hooks/auth';
-import {AvaliacaoProvider} from './hooks/avaliacaoContext';
 
 
 const App: React.FC = () => {
@@ -12,9 +11,7 @@ const App: React.FC = () => {
         <ThemeProvider theme={dark}>
         <GlobalStyles />
         <AuthProvider>
-            <AvaliacaoProvider>
-                <Routes/>
-            </AvaliacaoProvider>
+            <Routes/>
         </AuthProvider>
         </ThemeProvider>
     );

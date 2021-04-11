@@ -7,6 +7,7 @@ interface Response {
     id: number,
     username: string,
     email: string,
+    nivel: string,
   };
 }
 
@@ -22,43 +23,19 @@ function signInService(url: string, user: object): Promise<Response> {//Conversa
   });
 }
 
-
-function avaliacaoGET<Data=any>(url: string, user_id: number){
-  return new Promise<Data>((resolve,reject)=>{
-    api.get(url+user_id).then((resp) =>{
-      console.log(resp.data)
-      resolve(resp.data);
-    }).catch((error) => {
-      alert('Deu ruim!!');
+function updateAvaliacao(url:string,id:number,ava:string):Promise<Response>{
+  return new Promise((resolve,reject)=>{
+    api.put(url+id+'/',{nivel:ava}).then((res)=>{
+      resolve(res.data);
+    }).catch((error)=>{
+      alert('Impossivel modificar esse dado');
     })
-  });
+  })
 }
-
-function avaliacaoPOST(url: string, avaliacao: object) {//Salvar dados na avaliacao
-  api.post(url, avaliacao)
-    .then(function (response) {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error)
-    })
-}
-
-
-function avaliacaoPUT(url: string, avaliacao: object, id: number) {//Salvar dados na avaliacao
-  api.put(url + id, avaliacao)
-    .then(function (response) {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error)
-    })
-}
-
 
 function useFetch<Data = any>(url: string) {
   const { data, error } = useSWR<Data>(url, fetcher)
   return { data, error };
 }
 
-export { useFetch, signInService, avaliacaoPOST, avaliacaoPUT,avaliacaoGET }
+export { useFetch, signInService ,updateAvaliacao}

@@ -1,14 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { signInService } from "./service";
+import { signInService,updateAvaliacao } from "./service";
 
 interface User {
   id: number;
   username: string;
   email: string;
-  // avaliacao: {
-  //   area: string,
-  //   pontuacao:number,
-  // }
+  nivel:string;
 }
 
 interface AuthContextData {
@@ -16,6 +13,8 @@ interface AuthContextData {
   user: User | null;
   signIn(user: object): Promise<void>;
   signOut(): void;
+  atualizaAvaliacao(id:number,ava:string): Promise<void>;
+
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -49,11 +48,13 @@ const AuthProvider: React.FC = ({ children }) => {
     setUser(null);
   }
 
-  if (loading) {
+  async function atualizaAvaliacao(id:number,ava:string) {
+    const resp = await updateAvaliacao('/api/auth/update/',id,ava);
+    setUser(resp.user);
   }
 
   return (
-    <AuthContext.Provider value={{ logged: Boolean(user), user, signIn, signOut }}>
+    <AuthContext.Provider value={{ logged: Boolean(user), user, signIn, signOut,atualizaAvaliacao }}>
       {children}
     </AuthContext.Provider>
   );
@@ -63,5 +64,5 @@ function useAuth() {
   const context = useContext(AuthContext);
   return context;
 }
-
+export const getToken = () => localStorage.getItem('@QuizzAuth:token');
 export { AuthProvider, useAuth };
