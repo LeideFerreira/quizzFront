@@ -10,6 +10,12 @@ interface Response {
     nivel: string,
   };
 }
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  nivel:string;
+}
 
 const fetcher = (url: string) => api.get(url).then(resp => resp.data);
 
@@ -23,14 +29,16 @@ function signInService(url: string, user: object): Promise<Response> {//Conversa
   });
 }
 
-function updateAvaliacao(url:string,id:number,ava:string):Promise<Response>{
+function updateAvaliacao(url:string,id:number,ava:string):Promise<User>{
   return new Promise((resolve,reject)=>{
-    api.put(url+id+'/',{nivel:ava}).then((res)=>{
+    api.put(url+id+'/',{nivel:ava})
+    .then((res) =>{
       resolve(res.data);
     }).catch((error)=>{
-      alert('Impossivel modificar esse dado');
+      reject(error);
+      alert("Impossivel modificar");
     })
-  })
+  }); 
 }
 
 function useFetch<Data = any>(url: string) {

@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useFetch } from "../../hooks/service";
+import { useAuth } from '../../hooks/auth';
 
 import {
-    Answer,
-    Container,
-    Question_Count,
-    Question_Section,
-    Question_Text,
-    Score_Section,
+    Answer, Container, Question_Count, Question_Section, Question_Text, Score_Section, MenuItemlink
 } from './styles';
 
 interface Quizz {
@@ -22,46 +18,40 @@ interface Quizz {
     resolucao: string;
 }
 
-const ShowQuizz: React.FC = () =>{
+const ShowQuizz: React.FC = () => {
     const [atual, setQuestao_atual] = useState(0); //para atualizar a questao
     const [mostra_pontuacao, setMostra_pontuacao] = useState(false); //Quando terminar eu atualizo para true
     const [score, setScore] = useState(0);
-    const [situacao, setSituacao] = useState("bom");
-     /*
-        Essa useFetch pega todas as perguntas que estao no banco
-        * Passos para selecionar as questões do usuário
-            1 - Preciso inserir num dicionario somente as questões com nivel escolhido
-            2 - Ao inserir no dicionario preciso selecionar aleatoriamente as questoes desse dicionario, so consulto o banco uma vez
-    */
+    const { user, atualizaAvaliacao } = useAuth();
 
-   var url = '/api/question/';
-  
-   const { data } = useFetch<Quizz[]>(url); //#pegar dados da api 
+
+    const { data } = useFetch<Quizz[]>('/api/question/'); //#pegar dados da api 
     var qtd_questao = data?.length;
-    
+
     if (!data) {
         return (
             <p>Carregando...</p>
         )
     }
     var MeuData = data;
-    let randomNumber;
-    let tmp;
-    let index
+    let randomNumber, tmp, index
 
     //Ordenar a lista aleatoriamente
-    for (index = MeuData.length; index;) { 
+    for (index = MeuData.length; index;) {
         randomNumber = Math.random() * index-- | 0;
         tmp = MeuData[randomNumber];
         MeuData[randomNumber] = MeuData[index];
         MeuData[index] = tmp;
     }
 
-     function Situacao(score: number) {
-        if (score > 5) {
-            setSituacao('Otimo');
-        } else {
-            setSituacao('Ruim');
+    const Situacao = (score: number) => {
+        if (user) {
+            if (score > 5) {
+                atualizaAvaliacao(user.id, "D");
+            } else {
+                atualizaAvaliacao(user.id, "F")
+            }
+
         }
     }
 
@@ -81,9 +71,13 @@ const ShowQuizz: React.FC = () =>{
         <Container>
             {mostra_pontuacao ? (//Caso true
                 <Score_Section>
+                    {/*Aqui eu vou botar o resultado das questões e acertos do usuário */}
                     <span>  Sua pontuacao foi  </span> {score} de {qtd_questao}
                     <br />
-                    <span> Nível do aluno:</span> {situacao}
+                    <span>  Sua situacao eh: </span> {user?.nivel}
+                    <MenuItemlink href='/avaliacao'>
+                        <h1>Acessar avaliacao</h1>
+                    </MenuItemlink>
                 </Score_Section>
             ) : ( //senao
                     <Question_Section>

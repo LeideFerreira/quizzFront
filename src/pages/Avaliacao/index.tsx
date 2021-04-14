@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Container, Score_Section } from './styles';
 import ContentHeader from '../../components/contentHeader';
 import { useAuth } from '../../hooks/auth';
@@ -6,10 +6,6 @@ import { useAuth } from '../../hooks/auth';
 const Avaliacao: React.FC = () => {
     const {user,atualizaAvaliacao} = useAuth();
 
-
-    useEffect(()=>{
-        atualizaAvaliacao(2,"D");
-    },[])
     return (
         <Container>
             <ContentHeader title="Avaliação" />

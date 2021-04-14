@@ -44,3 +44,11 @@ export const Score_Section = styled.div`
         font-size: 20px;
     }
 `;
+export const MenuItemlink = styled.a`
+    color: ${props => props.theme.color.warning};
+    text-decoration: none;
+    &:hover{
+        opacity: .7;
+    }
+   
+`;
