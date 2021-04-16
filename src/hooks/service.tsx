@@ -19,6 +19,12 @@ interface User {
 
 const fetcher = (url: string) => api.get(url).then(resp => resp.data);
 
+function useFetch<Data = any>(url: string) {
+  const { data, error } = useSWR<Data>(url, fetcher)
+  return { data, error };
+}
+
+
 function signInService(url: string, user: object): Promise<Response> {//Conversa com api
   return new Promise((resolve, reject) => {
     api.post(url, user).then((resp) => {
@@ -39,11 +45,6 @@ function updateAvaliacao(url:string,id:number,ava:string):Promise<User>{
       alert("Impossivel modificar");
     })
   }); 
-}
-
-function useFetch<Data = any>(url: string) {
-  const { data, error } = useSWR<Data>(url, fetcher)
-  return { data, error };
 }
 
 export { useFetch, signInService ,updateAvaliacao}
