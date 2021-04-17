@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { IdentifierTypePredicate } from "typescript";
 import api from "../api";
 
 interface Response {
@@ -15,6 +16,14 @@ interface User {
   username: string;
   email: string;
   nivel:string;
+}
+
+interface Rodada{
+  id: number,
+  pontFacil: number;
+  pontMedia: number;
+  pontDificil: number;
+  user: number;
 }
 
 const fetcher = (url: string) => api.get(url).then(resp => resp.data);
@@ -35,6 +44,17 @@ function signInService(url: string, user: object): Promise<Response> {//Conversa
   });
 }
 
+function createRodada(rodada:object): Promise<Rodada> {
+  return new Promise((resolve,reject)=>{
+    api.post('api/rodada/',rodada).then((resp)=>{
+      resolve(resp.data);
+      console.log("Deu bom");
+    }).catch((error)=>{
+      alert('Não consigo salvar essa rodada!! buu');
+    })
+  });
+}
+
 function updateAvaliacao(url:string,id:number,ava:string):Promise<User>{
   return new Promise((resolve,reject)=>{
     api.put(url+id+'/',{nivel:ava})
@@ -47,4 +67,4 @@ function updateAvaliacao(url:string,id:number,ava:string):Promise<User>{
   }); 
 }
 
-export { useFetch, signInService ,updateAvaliacao}
+export { useFetch, signInService ,updateAvaliacao,createRodada}

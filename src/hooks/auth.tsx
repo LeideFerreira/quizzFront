@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from "react";
-import { signInService,updateAvaliacao } from "./service";
+import { signInService,updateAvaliacao ,createRodada} from "./service";
 
 interface User {
   id: number;
@@ -14,6 +14,8 @@ interface AuthContextData {
   signIn(user: object): Promise<void>;
   signOut(): void;
   atualizaAvaliacao(id:number,ava:string): Promise<void>;
+  novaRodada(rodada: object): Promise<void>;
+
 
 }
 
@@ -51,8 +53,12 @@ const AuthProvider: React.FC = ({ children }) => {
       setUser(resp);
       await localStorage.setItem('@QuizzAuth:user', JSON.stringify(resp));//Guardar o user no localStorage
     } else{
-      console.log("Quando o grave faz buuum");
+      console.log("Quando o grave faz Tuuum");
     }
+  }
+
+  async function novaRodada(rodada:object){
+    await createRodada(rodada);
   }
 
   async function signOut() {
@@ -62,7 +68,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }
   
   return (
-    <AuthContext.Provider value={{ logged, user, signIn, signOut,atualizaAvaliacao }}>
+    <AuthContext.Provider value={{ logged, user, signIn, signOut,atualizaAvaliacao,novaRodada }}>
       {children}
     </AuthContext.Provider>
   );

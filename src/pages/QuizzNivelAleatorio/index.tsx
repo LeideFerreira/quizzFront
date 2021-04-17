@@ -1,19 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFetch } from "../../hooks/service";
 import { useAuth } from '../../hooks/auth';
 import ResultadoBox from '../../components/resultadoBox';
 import ContentHeader from '../../components/contentHeader';
 import {
-    Answer,
-    Container,
-    Question_Count,
-    Answer_correta,
-    Resolucao,
-    Resultado_Section,
-    Question_Section,
-    Question_Text,
-    MenuItemlink,
-    Content
+    Answer, Container, Question_Count, Answer_correta, Resolucao, Resultado_Section,
+    Question_Section, Question_Text, MenuItemlink, Content
 } from './styles';
 
 interface Quizz {
@@ -32,44 +24,52 @@ const ShowQuizz: React.FC = () => {
     const [atual, setQuestao_atual] = useState(0); //para atualizar a questao
     const [mostra_pontuacao, setMostra_pontuacao] = useState(false); //Quando terminar eu atualizo para true
     const [score, setScore] = useState(0);
-    
-    const [q_escolha, setEscolha] = useState<String[]>([]);
     const [titulo, setTitulo] = useState("Rodada");
-
     const [pt_facil, setFacil] = useState(0);
     const [pt_medio, setMedio] = useState(0);
     const [pt_dificil, setDificil] = useState(0);
-    const { user, atualizaAvaliacao } = useAuth();
+    const { user, atualizaAvaliacao, novaRodada } = useAuth();
     const { data } = useFetch<Quizz[]>('/api/question/'); //#pegar dados da api   
 
     var qtd_questao = data?.length;
+    var rodada = { //object com os dados da rodada atual
+        pontFacil: pt_facil,
+        pontMedia: pt_medio,
+        pontDificil: pt_dificil,
+        user: user?.id,
+    }
+    useEffect(() => {
+        if (mostra_pontuacao) {
+            console.log("E so quero dizer que pra mim vc tanto faz..")
+            novaRodada(rodada);
+        }
+    }, [mostra_pontuacao])
 
     if (!data) {
-        return (
-            <p>Carregando...</p>
-        )
+        return (<p>Carregando...</p>)
     }
-
     var Meudata = data;
+
     const Situacao = (score: number) => {
         if (user) {
-            if (score > 5) { atualizaAvaliacao(user.id, "D");
-            } else { atualizaAvaliacao(user.id, "F")
+            if (score > 5) {
+                atualizaAvaliacao(user.id, "D");
+            } else {
+                atualizaAvaliacao(user.id, "F")
             }
         }
     }
 
     const questaoCorretaClick = (escolha: string) => {
-        q_escolha.push(escolha);
         if (escolha === Meudata[atual].correta) {
             setScore(score + 1);
             let temp = Meudata[atual].nivel;
-
             if (temp === "F") {
                 setFacil(pt_facil + 1);
-            } else if (temp === "M") {
+            }
+            if (temp === "M") {
                 setMedio(pt_medio + 1);
-            } else {
+            } if (temp === "D") {
                 setDificil(pt_dificil + 1);
             }
         }
@@ -91,7 +91,8 @@ const ShowQuizz: React.FC = () => {
                 <Content>
                     <ResultadoBox>
                         <h2>Questões da Rodada</h2>
-                        {Meudata.map((data) => (
+
+                        {Meudata.map((data, index) => (
                             <Resultado_Section>
                                 <Question_Text><span>Pergunta: {data.pergunta}</span></Question_Text>
                                 <Answer>A) {data.a}</Answer>
@@ -110,6 +111,8 @@ const ShowQuizz: React.FC = () => {
                             <span> Sua pontuacao foi:</span> {score} de {qtd_questao} <br />
                             <span> Quantidade de acertos de questões facil: </span>{pt_facil} <br />
                             <span>Quantidade de acertos de questões media: </span>{pt_medio}  <br />
+                            <span>Quantidade de acertos de questões Dificil: </span>{pt_dificil}  <br />
+
                             <span> Seu nivel é de: </span> {user?.nivel}  <br />
                         </Resultado_Section>
                         <MenuItemlink href='/avaliacao'>

@@ -11,41 +11,50 @@ import{
 
 interface IHistoryBoxProps{
     data:{
-        month:string,
-        amountEntry:number,
-        amountOutput: number,
+        id:number,
+        pontFacil:number,
+        pontMedia:number,
+        pontDificil:number,
     }[],
-    lineColorAmountEntry:string,
-    lineColorAmountOutput:string,
+    lineColorpontFacil:string,
+    lineColorpontMedia:string,
+    lineColorpontDificil:string,
      
 }
 const HistoryBox: React.FC<IHistoryBoxProps> = ({
-    data,lineColorAmountEntry,lineColorAmountOutput
+    data,lineColorpontFacil,lineColorpontMedia,lineColorpontDificil
 }) => {
-
     return (
-        <Container>
-           
+        <Container>   
                 <h2>Ola, eu sou o seu history</h2>
           <ResponsiveContainer>
-              <LineChart data={data}>
+              <LineChart data={data} margin={{top: 5, right: 20,left:20,bottom:5}}>
                   <CartesianGrid  strokeDasharray="3 3" stroke="#cecece"/>
-                  <XAxis dataKey="month" stroke="#cecece"/>
+                  <XAxis dataKey= "id"stroke="#cecece"/>
                   <Tooltip />
                   <Line 
                   type="monotone" 
-                  name="Entradas"
-                  dataKey="amountEntry"
-                  stroke={lineColorAmountEntry}
+                  name="Facil"
+                  dataKey="pontFacil"
+                  stroke={lineColorpontFacil}
                   strokeWidth={5}
                   dot = {{r:5}}
                   activeDot={{r:8}}
                   />
                   <Line 
                   type="monotone" 
-                  name="Saidas"
-                  dataKey="amountOutput"
-                  stroke={lineColorAmountOutput}
+                  name="Medio"
+                  dataKey="pontMedia"
+                  stroke={lineColorpontMedia}
+                  strokeWidth={5}
+                  dot = {{r:5}}
+                  activeDot={{r:8}}
+                  />
+                   <Line 
+                  type="monotone" 
+                  name="Dificil"
+                  dataKey="pontDificil"
+                  stroke={lineColorpontDificil}
                   strokeWidth={5}
                   dot = {{r:5}}
                   activeDot={{r:8}}
