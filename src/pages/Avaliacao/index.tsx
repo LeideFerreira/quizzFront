@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo,useState } from 'react';
 import { Container, Score_Section, Content } from './styles';
 import ContentHeader from '../../components/contentHeader';
 import AvaliacaoBox from '../../components/avaliacaoBox';
@@ -17,7 +17,7 @@ interface Rodada{
 const Avaliacao: React.FC = () => {
     const { user } = useAuth();
     const {data} =  useFetch<Rodada[]>('/api/rodada/'); //#pegar dados da api   
-
+    
     if(!data){
         return (<p>Carregando...</p>)
     }
@@ -29,28 +29,45 @@ const Avaliacao: React.FC = () => {
         for(i=qtd_rodada-5; i<=qtd_rodada; i++){
             rodadas.push(data[i]);
         }
-    }else{
+    }else{ 
         rodadas=data;//se for menor ou igual vai so as cinco primeiras msm
     }
-
 
     return (
         <Container>
             <ContentHeader title="Avaliação" />
             <Content>
                 <AvaliacaoBox>
-                    <h2>De acordo com seu Perfil</h2> 
+                    <h2>Nível do usuário</h2> 
                     {user ? ( 
-                        <Score_Section>
-                            <p> Olá, {user.username} seu nível em Expressões Algebricas é {user.nivel}</p>  
+                        <Score_Section> 
+                            <span> Olá {user.username} de acordo com seu perfil seu nível em Expressões Algebricas é </span>  
+                            {user.nivel==="F" &&(
+                                <span>Iniciante</span>
+                            )}
+                            {user.nivel==="M" &&(
+                                <span>Intermediário</span>
+                            )}
+                            {user.nivel==="D" &&(
+                                <span>Avançado</span>
+                            )}
+                           
                         </Score_Section>      
                     ) : (
                         <p>Wait...tá sem</p>
                     )}
                </AvaliacaoBox>
                <AvaliacaoBox>
-                   <h2>Segunda Tela</h2>
-               </AvaliacaoBox>
+               <h2>Recomendações</h2>
+                   <Score_Section>
+                   <a target="_blank" href="https://www.youtube.com/watch?v=BCoTYgKIKBM">EXPRESSÕES ALGÉBRICAS - Aula 01</a>
+                   </Score_Section>
+                   <Score_Section>
+                   <a target="_blank" href="https://www.youtube.com/watch?v=_4tKHAi9I8I">EQUAÇÃO DO 1° GRAU - Com Marcos Aba</a>
+                   </Score_Section>
+                   
+                  
+                    </AvaliacaoBox>
                <HistoryBox
                 data={rodadas}
                 lineColorpontFacil="#F7931B"

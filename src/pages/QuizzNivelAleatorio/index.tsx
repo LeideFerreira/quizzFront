@@ -5,7 +5,7 @@ import ResultadoBox from '../../components/resultadoBox';
 import ContentHeader from '../../components/contentHeader';
 import {
     Answer, Container, Question_Count, Answer_correta, Resolucao, Resultado_Section,
-    Question_Section, Question_Text, MenuItemlink, Content
+    Question_Section, Question_Text, MenuItemlink, Content,Link_Item
 } from './styles';
 
 interface Quizz {
@@ -91,10 +91,9 @@ const ShowQuizz: React.FC = () => {
                 <Content>
                     <ResultadoBox>
                         <h2>Questões da Rodada</h2>
-
                         {Meudata.map((data, index) => (
                             <Resultado_Section>
-                                <Question_Text><span>Pergunta: {data.pergunta}</span></Question_Text>
+                                <Question_Text>Pergunta: {data.pergunta}</Question_Text>
                                 <Answer>A) {data.a}</Answer>
                                 <Answer>B) {data.b}</Answer>
                                 <Answer>C) {data.c}</Answer>
@@ -108,16 +107,27 @@ const ShowQuizz: React.FC = () => {
                     <ResultadoBox>
                         <h2>Pontuação</h2>
                         <Resultado_Section>
-                            <span> Sua pontuacao foi:</span> {score} de {qtd_questao} <br />
-                            <span> Quantidade de acertos de questões facil: </span>{pt_facil} <br />
-                            <span>Quantidade de acertos de questões media: </span>{pt_medio}  <br />
-                            <span>Quantidade de acertos de questões Dificil: </span>{pt_dificil}  <br />
+                            <Question_Text><span>Você acertou {score} de {qtd_questao} questões!</span> </Question_Text> 
+                            <Question_Text>Acertos em questões de nível facil: {pt_facil}</Question_Text>
+                            <Question_Text>Acertos em questões de nível médio: {pt_medio}</Question_Text>
+                            <Question_Text>Acertos em questões de nível Dificil: {pt_dificil} </Question_Text>
 
-                            <span> Seu nivel é de: </span> {user?.nivel}  <br />
+                            <Question_Text> <span>Seu nível em matemática é </span>{user?.nivel==="F" &&(
+                                <span>Iniciante</span>
+                            )}
+                            {user?.nivel==="M" &&(
+                                <span>Intermediário</span>
+                            )}
+                            {user?.nivel==="D" &&(
+                                <span>Avançado</span>
+                            )}</Question_Text> 
                         </Resultado_Section>
+                        <Link_Item>
                         <MenuItemlink href='/avaliacao'>
-                            <h1>Acessar avaliacao</h1>
+                            <h3> Acessar avaliação </h3>
                         </MenuItemlink>
+                        </Link_Item>
+                       
                     </ResultadoBox>
                 </Content>
             ) : ( //senao

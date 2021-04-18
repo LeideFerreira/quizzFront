@@ -3,9 +3,11 @@ import styled from 'styled-components';
 export const Container = styled.div`
     width:48%;
     margin: 10px 0;
-
+    h2{
+        color: ${props=>props.theme.color.info};
+    }
+   
     background-color: ${props =>props.theme.color.tertiary};
-    color: ${props=>props.theme.color.white};
     border-radius: 7px;
     padding:30px 20px;
     display: flex;

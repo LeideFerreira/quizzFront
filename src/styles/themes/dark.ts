@@ -1,9 +1,10 @@
 export default {
     tittle: 'dark',
     color:{
-        primary: '#1B1F38',
-        secondary: '#252A48',
-        tertiary: '#313862',
+        primary: '#1f1f2e',
+        secondary: '#29293d',
+        tertiary: '#33334d',
+        quartiary: '#3d3d5c',
 
         white:'#FFF',
         black: '#000',
@@ -13,5 +14,6 @@ export default {
         info: '#F7931B',
         warning:'#E44C4E',
         correct:'#00FF00',
+
     }
 }

@@ -16,7 +16,7 @@ export const Header = styled.header`
 `;
 export const LogImg = styled.img`
     height: 40px;
-    width: 40px;
+    width: 50px;
 `;
 export const Menu = styled.nav`
     display: flex;

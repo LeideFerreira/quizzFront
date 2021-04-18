@@ -5,8 +5,11 @@ export const Container = styled.div`
     height:260px;
     margin: 10px 0;
 
-    background-color: ${props =>props.theme.color.tertiary};
-    color: ${props=>props.theme.color.white};
+    h2{
+        color: ${props=>props.theme.color.info};
+    }
+    background-color: ${props =>props.theme.color.secondary};
+   // color: ${props=>props.theme.color.white};
     border-radius: 7px;
     padding:30px 20px;
     display: flex;

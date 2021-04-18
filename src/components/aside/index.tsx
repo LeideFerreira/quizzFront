@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container,Header,LogImg,Menu,MenuItemlink,Title,MenuItemlButton} from './styles';
-import logoImg from '../../assets/question.svg'
+import logoImg from '../../assets/maths.svg'
 import {MdExitToApp,MdDashboard} from 'react-icons/md'
 import {useAuth} from '../../hooks/auth';
 
@@ -10,7 +10,7 @@ const Aside: React.FC = () =>{
         <Container>
             <Header>
                 <LogImg src={logoImg} alt= "Logo meu Quizz"/>
-                <Title>Quizz project</Title>
+                <Title>Projeto Quiz Educacional</Title>
             </Header>
             <Menu>
                 <MenuItemlink href='/principal'>

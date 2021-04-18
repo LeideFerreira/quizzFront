@@ -26,7 +26,7 @@ const HistoryBox: React.FC<IHistoryBoxProps> = ({
 }) => {
     return (
         <Container>   
-                <h2>Ola, eu sou o seu history</h2>
+                <h2>Média de acertos de acordo com o nível da Questão</h2>
           <ResponsiveContainer>
               <LineChart data={data} margin={{top: 5, right: 20,left:20,bottom:5}}>
                   <CartesianGrid  strokeDasharray="3 3" stroke="#cecece"/>
