@@ -13,6 +13,8 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content:space-between;
+    height: calc(100vh - 70px);
+    overflow-y: scroll;//tudo que nao couber nao mostra e manda uma rolagem
 `;
 // export const SideLeft = styled.div``;
 // export const LegendContainer = styled.div``;

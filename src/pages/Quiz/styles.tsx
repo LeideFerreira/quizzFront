@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-    
+export const Container = styled.div`   
 `;
 
 export const Answer = styled.div`   
@@ -31,6 +30,7 @@ export const Question_Section = styled.div`
 `;
 export const Link_Item = styled.div`
     margin-top:20px;
+    margin-left:100px;
     width:40%;
     border-radius: 20px;
     padding:10px;
@@ -62,6 +62,11 @@ export const Resultado_Section = styled.div`
   
 `;
 
+export const Image_Section = styled.div`
+
+`;
+
+
 export const Question_Count = styled.div`
     margin-bottom: 20px;
     >span{
@@ -80,6 +85,12 @@ export const Resolucao = styled.div`
     color: ${props => props.theme.color.white};
     margin-top:12px;
     margin-bottom:12px;
+
+    img{
+        width: 100%;
+       // margin-left:10px;
+    }
+
 `;
 
 export const Score_Section = styled.div`

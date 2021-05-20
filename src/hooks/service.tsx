@@ -1,9 +1,8 @@
 import useSWR from "swr";
-import { IdentifierTypePredicate } from "typescript";
 import api from "../api";
 
 interface Response {
-  token: string;
+  token: string,
   user: {
     id: number,
     username: string,
@@ -13,23 +12,26 @@ interface Response {
 }
 interface User {
   id: number;
-  username: string;
-  email: string;
-  nivel:string;
+  username: string,
+  email: string,
+  nivel:string,
 }
 
 interface Rodada{
   id: number,
-  pontFacil: number;
-  pontMedia: number;
-  pontDificil: number;
-  user: number;
+  pontFacil: number,
+  pontMedia: number,
+  pontDificil: number,
+  user: number,
 }
 
 const fetcher = (url: string) => api.get(url).then(resp => resp.data);
 
-function useFetch<Data = any>(url: string) {
-  const { data, error } = useSWR<Data>(url, fetcher)
+function useFetch<Data = any,Error =any>(url: string) {
+  const { data, error } = useSWR<Data,Error>(url, async url =>{
+    const response = await api.get(url);
+    return response.data;
+  })
   return { data, error };
 }
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from './hooks/auth';
 
 const api = axios.create({
-    baseURL: "http://localhost:8000",
+    baseURL: "https://quiz-api-rest.herokuapp.com",
     responseType: "json"
   });
 
